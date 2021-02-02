@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="GeometricXferView">
+        <attr name="startAngle" format="float" />
+    </declare-styleable>
+
+
+    <declare-styleable name="AdjoinLayout">
+        <attr name="orientation" format="string">
+            <enum name="vertical" value="0" />
+            <enum name="horizontal" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>
