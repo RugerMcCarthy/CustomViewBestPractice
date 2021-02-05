@@ -16,19 +16,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="天津市" />
-
-    <com.bupt.customview.AdjoinLayout
-        app:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <com.bupt.customview.ColoredTextView
-            android:layout_width="wrap_content"
+    <com.bupt.customview.ColoredTextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="上海市" />
 
-        <com.bupt.customview.ColoredTextView
+    <com.bupt.customview.ColoredTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="重庆市" />
-    </com.bupt.customview.AdjoinLayout>
+
+    <com.bupt.customview.ColoredTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="天津市" />
+    <com.bupt.customview.ColoredTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="上海市" />
+
+    <com.bupt.customview.ColoredTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="重庆市" />
+    <com.bupt.customview.ColoredTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="天津市" />
+    <com.bupt.customview.ColoredTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="上海市" />
+
+    <com.bupt.customview.ColoredTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="重庆市" />
 </com.bupt.customview.AdjoinLayout>

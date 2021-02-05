@@ -41,14 +41,14 @@ class AdjoinLayout(context: Context, attributeSet: AttributeSet): ViewGroup(cont
                     }
                     else -> {
                         childMeasuredMode = MeasureSpec.EXACTLY
-                        childMeasuredSize = max(min(fatherMeasureSpecSize - used, specificValue), 0)
+                        childMeasuredSize = specificValue
                     }
                 }
             else ->
                 when (specificValue) {
                     LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT -> {
                         childMeasuredMode = MeasureSpec.UNSPECIFIED
-                        childMeasuredSize = fatherMeasureSpecSize
+                        childMeasuredSize = 0
                     }
                     else -> {
                         childMeasuredMode = MeasureSpec.EXACTLY
@@ -77,7 +77,6 @@ class AdjoinLayout(context: Context, attributeSet: AttributeSet): ViewGroup(cont
             currentChildLayout.set(0, usedHeight, child.measuredWidth, usedHeight + child.measuredHeight)
             usedWidth = max(usedWidth, child.measuredWidth)
             usedHeight += child.measuredHeight
-            Log.d("gzz", "child.measuredHeight: ${child.measuredHeight}")
         }
         setMeasuredDimension(resolveSize(usedWidth, widthMeasureSpec), resolveSize(usedHeight, heightMeasureSpec))
     }
@@ -85,18 +84,30 @@ class AdjoinLayout(context: Context, attributeSet: AttributeSet): ViewGroup(cont
     private fun horizontalMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         var usedWidth = 0
         var usedHeight = 0
+        var lineHeightMax = 0
+        var lineWidthMax = 0
+        var widthMeasureSpecMode = MeasureSpec.getMode(widthMeasureSpec)
+        var widthMeasureSpecSize = MeasureSpec.getSize(widthMeasureSpec)
         for ((index, child) in children.withIndex()) {
-            measureChildWithUsed(child, widthMeasureSpec, 0, heightMeasureSpec, usedHeight)
+            while (true) {
+                measureChildWithUsed(child, widthMeasureSpec, 0, heightMeasureSpec, 0)
+                if (widthMeasureSpecMode == MeasureSpec.UNSPECIFIED || (child.measuredWidth != 0 && usedWidth + child.measuredWidth <= widthMeasureSpecSize)) {
+                    break
+                } else {
+                    usedHeight += lineHeightMax
+                    usedWidth = 0
+                    lineHeightMax = 0
+                }
+            }
             if (index >= childLayoutList.size) {
                 childLayoutList.add(Rect())
             }
             var currentChildLayout = childLayoutList[index]
-            currentChildLayout.set(usedWidth, 0, usedWidth + child.measuredWidth, child.measuredHeight)
-            usedHeight = max(usedHeight, child.measuredHeight)
+            currentChildLayout.set(usedWidth, usedHeight, usedWidth + child.measuredWidth, usedHeight + child.measuredHeight)
+            lineHeightMax = max(child.measuredHeight, lineHeightMax)
             usedWidth += child.measuredWidth
-            Log.d("gzz", "child.measuredHeight: ${child.measuredHeight}")
         }
-        setMeasuredDimension(resolveSize(usedWidth, widthMeasureSpec), resolveSize(usedHeight, heightMeasureSpec))
+        setMeasuredDimension(resolveSize(usedWidth, widthMeasureSpec), resolveSize(usedHeight + lineHeightMax, heightMeasureSpec))
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
